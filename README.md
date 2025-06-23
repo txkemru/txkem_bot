@@ -62,40 +62,7 @@ ADMIN_ID=your_telegram_id_here
 python -m bot.main
 ```
 
-## Деплой на Render
 
-### Автоматический деплой (рекомендуется):
-
-1. **Подготовьте проект для Git:**
-```bash
-git init
-git add .
-git commit -m "Initial commit"
-```
-
-2. **Создайте репозиторий на GitHub:**
-   - Создайте новый репозиторий на GitHub
-   - Загрузите код: `git push origin main`
-
-3. **Деплой на Render:**
-   - Зайдите на [render.com](https://render.com)
-   - Создайте новый Web Service
-   - Подключите ваш GitHub репозиторий
-   - Render автоматически определит настройки из `render.yaml`
-
-4. **Настройте переменные окружения на Render:**
-   - `BOT_TOKEN` - токен вашего бота
-   - `ADMIN_ID` - ваш Telegram ID
-
-### Ручной деплой:
-
-1. Создайте новый Web Service на Render
-2. Подключите GitHub репозиторий
-3. Настройте:
-   - **Build Command:** `pip install -r requirements.txt`
-   - **Start Command:** `python -m bot.main`
-   - **Environment:** Python 3
-4. Добавьте переменные окружения
 
 ## Система заказов
 
