@@ -2,8 +2,6 @@ import asyncio
 import logging
 import signal
 import sys
-import os
-from aiohttp import web
 from aiogram import Bot, Dispatcher
 from aiogram.enums import ParseMode
 from aiogram.client.default import DefaultBotProperties
@@ -20,34 +18,10 @@ logging.basicConfig(
 # Глобальные переменные для graceful shutdown
 bot = None
 dp = None
-app = None
-
-async def health_check(request):
-    """Health check endpoint для Render"""
-    return web.Response(text="Bot is running", status=200)
-
-async def start_web_server():
-    """Запуск HTTP сервера для health check"""
-    global app
-    app = web.Application()
-    app.router.add_get('/', health_check)
-    
-    # Получаем порт из переменной окружения (Render автоматически устанавливает PORT)
-    port = int(os.environ.get('PORT', 8080))
-    
-    runner = web.AppRunner(app)
-    await runner.setup()
-    site = web.TCPSite(runner, '0.0.0.0', port)
-    await site.start()
-    logging.info(f"HTTP сервер запущен на порту {port}")
 
 async def on_startup():
     """Действия при запуске бота"""
     logging.info("Бот запускается...")
-    
-    # Запускаем HTTP сервер
-    await start_web_server()
-    
     try:
         # Проверяем подключение к Telegram
         me = await bot.get_me()
@@ -61,8 +35,6 @@ async def on_shutdown():
     logging.info("Бот останавливается...")
     if bot:
         await bot.session.close()
-    if app:
-        await app.shutdown()
     logging.info("Бот остановлен")
 
 def signal_handler(signum, frame):
